@@ -1,0 +1,7 @@
+- name: Reload nginx configuration
+  command: "nginx -s reload"
+
+- name: Reload php configuration
+  service:
+    name: "php{{ php_fpm_version }}-fpm.service"
+    state: reloaded

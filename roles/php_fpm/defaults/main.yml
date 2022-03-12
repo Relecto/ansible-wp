@@ -1,0 +1,9 @@
+# Used for getting the socket path, service name, etc..
+# Make sure it matches package versions
+php_fpm_version: 7.4
+php_fpm_fpm_package: php-fpm=2:7.4+75 
+php_fpm_fpm_mysql_package: php-mysql=2:7.4+75
+
+php_fpm_nginx_package: nginx=1.18.0-0ubuntu1.2
+
+php_fpm_server_name: lemp.wp www.lemp.wp

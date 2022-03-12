@@ -1,0 +1,38 @@
+- name: Install MYSQL
+  hosts: worker
+  become: true
+  gather_facts: no
+  tags: install_db
+  tasks:
+    - name: Ensure MySQL package is present
+      apt:
+        name: mysql-server
+        state: present
+        update_cache: true
+
+    - name: Ensure MySQL is running
+      service:
+        name: mysql
+        state: started
+
+    # For using ansible mysql modules this is required
+    - name: "Ensure python-mysql package is present"
+      apt:
+        name: python3-mysqldb
+        state: latest
+
+    - name: Ensure default user is present.
+      mysql_user:
+        # name: "{{ mysql_user_name }}"
+        name: "default"
+        host: 'localhost'
+        # password: "{{ mysql_user_password }}"
+        password: "default"
+        priv: '*.*:ALL,GRANT'
+        state: present
+
+    - name: Create a wordpress database
+      mysql_db:
+        name: wordpress
+        state: present
+    

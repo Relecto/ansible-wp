@@ -1,0 +1,15 @@
+- import_playbook: mysql.yml
+
+- name: Install php-fpm
+  hosts: worker
+  become: true
+  gather_facts: no
+  tags: install_php
+  roles:
+    - role: php_fpm
+      vars: 
+        php_fpm_version: 7.4 
+        php_fpm_fpm_package: php-fpm=2:7.4+75 
+        php_fpm_fpm_mysql_package: php-mysql=2:7.4+75
+
+- import_playbook: wp.yml

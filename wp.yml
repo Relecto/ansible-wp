@@ -1,0 +1,22 @@
+- name: Install WP
+  hosts: worker
+  become: true
+  gather_facts: no
+  tags: install_wp
+  vars:
+    wp_db_name: wordpress
+    wp_db_user: default
+    wp_db_password: default
+    wp_db_host: /var/run/mysqld/mysqld.sock
+  tasks:
+    - name: Download WP archive and unarchive it
+      unarchive:
+        remote_src: yes
+        src: https://wordpress.org/latest.tar.gz
+        dest: /var/www/html
+        extra_opts: [--strip-components=1]
+        
+    - name: Copy wp-config.php
+      template: 
+        src: wp-config.php
+        dest: /var/www/html/

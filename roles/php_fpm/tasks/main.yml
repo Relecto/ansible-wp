@@ -1,0 +1,45 @@
+- name: Ensure php-fpm packages are present
+  apt:
+    pkg: 
+      - "{{ php_fpm_fpm_package }}"
+      - "{{ php_fpm_fpm_mysql_package }}"
+    state: present
+    update_cache: true
+
+- name: Ensure nginx package is present
+  apt:
+    name: "{{ php_fpm_nginx_package }}"
+    state: present
+    update_cache: true
+
+- name: Copy nginx configuration
+  template:
+    src: wp.conf
+    dest: /etc/nginx/sites-available/wp
+  notify:
+    - Reload nginx configuration
+
+- name: Link site to sites-enabled
+  file:
+    src: /etc/nginx/sites-available/wp 
+    dest: /etc/nginx/sites-enabled/wp
+    state: link
+  notify:
+    - Reload nginx configuration
+
+- name: Unlink default configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    -  Reload nginx configuration
+
+- name: Ensure nginx is running
+  service:
+    name: nginx
+    state: started
+
+- name: Ensure php-fpm is running
+  service:
+    name: "php{{ php_fpm_version }}-fpm.service"
+    state: started

@@ -1,0 +1,7 @@
+.vagrant
+venv
+
+# macos
+.DS_Store
+.AppleDouble
+.LSOverride
