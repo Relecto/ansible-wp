@@ -1,6 +1,6 @@
 # LEMP stack Ansible playbook
 
-Playbook to deploy LEMP stack onto Ubuntu machine.
+Playbook to deploy LEMP stack onto Ubuntu machine, and install Wordpress on it.
 
 ## How to use
 
